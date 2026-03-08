@@ -1,0 +1,28 @@
+{
+  "base_learning_rate": 0.0001,
+  "batch_size": 32,
+  "dagger_dataset_weighting_strategy": "recent_bias",
+  "dagger_iteration_epochs": 15,
+  "dagger_keep_converted_datasets": 3,
+  "dagger_load_optimizer_state": false,
+  "dagger_lr_decay_factor": 0.85,
+  "dagger_lr_strategy": "decay",
+  "dagger_weight_decay_factor": 0.9,
+  "epochs": 15,
+  "image_size": [
+    60,
+    90
+  ],
+  "initial_bc_dataset_dir": "/home/shahi/apf_logs/il_dataset/apf_depth_vel",
+  "initial_bc_model_path": "/home/shahi/catkin_ws/src/apf_depth_nav_node/scripts/bc_training/full_lr0.0001_seed42_20250603_220558/final_model.pt",
+  "learning_rate": 0.0001,
+  "max_depth": 10.0,
+  "max_velocity": 2.0,
+  "model_type": "full",
+  "num_workers": 4,
+  "output_dir": "/home/shahi/catkin_ws/src/apf_depth_nav_node/dagger_training_output/training_iter_1",
+  "seed": 42,
+  "train_initial_bc_model_in_dagger_pipeline": true,
+  "train_num_workers": 4,
+  "val_split": 0.2
+}

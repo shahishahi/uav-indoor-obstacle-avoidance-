@@ -1,0 +1,120 @@
+# APF Depth Navigator Configuration File
+# Location: /home/shahi/catkin_ws/src/apf_depth_nav_node/config/apf_config.yaml
+# (Ensure the Python script's primary_path in load_config matches this if you don't pass as argument)
+
+# --- Force Field Parameters ---
+force_field:
+  k_att: 0.9                   # Attractive force gain (0.5-1.5). Higher means stronger pull.
+  k_rep: 2.5                   # Repulsive force gain (1.0-5.0). Higher means stronger push from obstacles.
+  force_history_size: 2        # Smoothing window (1-10). Smaller means faster, more reactive response.
+
+# --- Obstacle Detection Parameters ---
+obstacle_detection:
+  depth_threshold: 2.8         # (m) Max distance to consider an obstacle relevant.
+  obs_radius: 1.8              # (m) Radius of influence for calculating repulsive force strength.
+  camera:                      # Camera intrinsic parameters
+    fx: 462.1
+    fy: 462.1
+    cx: 320.0
+    cy: 240.0
+
+# --- Velocity Parameters ---
+velocity:
+  vel_cap: 2.5                 # (m/s) Maximum overall speed cap for the drone.
+
+# --- Altitude Parameters ---
+altitude:
+  takeoff_height: 1.5          # (m) Target absolute Z altitude for takeoff in EKF frame.
+  min_safe_altitude: 1.6       # (m) Drone will try to stay above this or current waypoint's Z, whichever is higher.
+  max_altitude: 2.3            # (m) Hard upper limit for altitude.
+  low_altitude_gain: 1.5       # Gain for correcting if below target/min_safe_altitude.
+  high_altitude_gain: 1.0      # Gain for correcting if above max_altitude.
+
+# --- Stuck Detection Parameters ---
+stuck_detection:
+  stuck_speed_threshold: 0.3  # (m/s) Speed below which, if no progress, drone is considered stuck.
+  stuck_time_threshold: 2.0    # (s) Time of low speed AND no progress before triggering general escape.
+                               # Note: Near-goal stuck detection has its own longer timer in code (e.g. 10s).
+  escape_duration: 1.8         # (s) Duration of the escape maneuver.
+  escape_velocity: 0.7         # (m/s) Magnitude of velocity during escape maneuver.
+  escape_upward_bias: 0.6      # Bias (0-1) for upward component in random escape. For smarter escape, Z might be handled differently.
+  post_escape_boost_duration: 2.5 # (s) Duration for k_att boost after successful escape.
+  post_escape_k_att_multiplier: 1.6 # Factor to multiply k_att by during post-escape boost.
+
+# --- Waypoint Navigation Parameters ---
+waypoint_navigation:
+  num_waypoints: 4             # Number of *intermediate* waypoints. Total WPs in list will be num_waypoints + 1 (final goal).
+  waypoint_reach_threshold: 1.0 # (m) Distance to consider an intermediate waypoint reached.
+  waypoint_offset_range: 0.8    # (m) Max random horizontal offset for intermediate waypoints.
+  waypoint_vertical_offset_scale: 0.3 # Factor (0-1) for random vertical offset based on horizontal offset.
+
+# --- Goal Settings ---
+goal_settings:
+  goal_area:                   # Area for randomly sampling new goal positions
+    x_min: 15.0
+    x_max: 18.0
+    y_min: -5.0
+    y_max: 8.0
+  altitude_variation: 0.6      # (m) Random Z variation (+/-) for goal, relative to (fixed_spawn_z + data_collection_offset_for_z).
+  goal_reach_threshold: 1.5    # (m) Distance to consider the *final* goal reached.
+  goal_speed_threshold: 0.40   # (m/s) Speed below which drone must be to confirm final goal.
+  hover_duration: 1.0          # (s) Default hover duration at goal (if data_collection_mode is false).
+  hover_duration_data_collection: 0.05 # (s) Hover duration if data_collection_mode is true (very short).
+
+# --- Spawn Settings (For Gazebo Simulation) ---
+spawn_settings:
+  start_position:              # Absolute coordinates for drone respawn.
+    x: -12.4
+    y: 0.0
+    z: 2                     # This Z is used as the base for fixed_spawn_pos and goal Z calculations.
+  respawn_delay: 3.0           # (s) Delay after set_model_state service call SUCCEEDS. The script also has an internal settle timer.
+
+# --- Takeoff Parameters ---
+takeoff:
+  gains:
+    p_gain_large: 0.9
+    p_gain_small: 0.6
+  max_takeoff_velocity: 1.5
+  normal_takeoff_velocity: 1 # Speed cap when closer to takeoff altitude.
+  stability:
+    altitude_error_threshold: 0.15
+    velocity_threshold: 0.6
+    stable_count_required: 25 # For normal mode
+    stable_count_required_data_collection: 8 # For data collection mode
+  max_timeout_cycles: 500      # Approx (max_timeout_cycles / control_frequency) seconds
+  minimum_acceptable_altitude: 0.8
+
+# --- System Parameters ---
+system:
+  control_frequency: 20
+  log_interval: 2.5            # (s) For the periodic navigation status log.
+  initial_setpoints: 60        # Number of zero-velocity setpoints before arming attempt.
+
+# --- Mission Control Parameters ---
+mission:
+  continuous_mode: true
+  max_missions: 0
+  mission_timeout: 180         # (s) Max duration for one mission's navigation phase.
+  data_collection_mode: true   # KEY FLAG: Set true to enable BC data optimization behaviors.
+
+# --- Debugging Parameters ---
+debug:
+  verbose_logging: false
+  # visualize_forces: false    # Not implemented in current script
+  debug_log_interval: 5.0
+  log_stuck_detection: true
+
+# --- Safety Parameters ---
+safety:
+  # emergency_min_altitude: 0.3  # Conceptual, actual floor is min_safe_altitude.
+  # emergency_max_altitude: 3.0  # Conceptual, actual ceiling is max_altitude.
+  max_emergency_velocity: 3    # (m/s) Hard cap if calculated command velocity is extreme.
+  enable_altitude_limits: true   # If true, script actively tries to stay within min_safe_altitude and max_altitude.
+  enable_velocity_limits: true   # If true, vel_cap and max_emergency_velocity are applied.
+
+# --- Exploration & Data Collection Specific Parameters ---
+exploration_data_collection:
+  enable_agitation: true
+  agitation_probability: 0.05  # e.g., 5% chance per control cycle
+  agitation_strength: 0.2      # Magnitude of random force nudge
+  agitation_vertical_scale: 0.2 # Scale for vertical component of nudge (less vertical agitation)

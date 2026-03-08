@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Configuration file path (can be overridden) -->
+    <arg name="config_file" default="/home/shahi/catkin_ws/src/apf_depth_nav_node/config/apf_config.yaml" />
+    
+    <!-- Enable/disable specific features -->
+    <arg name="verbose" default="false" />
+    <arg name="continuous_mode" default="true" />
+    
+    <!-- Core navigation parameters (can override config file) -->
+    <arg name="k_att" default="" />
+    <arg name="k_rep" default="" />
+    <arg name="depth_threshold" default="" />
+    <arg name="vel_cap" default="" />
+    <arg name="takeoff_height" default="" />
+    
+    <!-- APF Navigation Node -->
+    <node name="apf_depth_navigator" pkg="apf_depth_nav_node" type="apf_depth_nav_node.py" 
+          args="$(arg config_file)" output="screen">
+        
+        <!-- Override parameters if provided -->
+        <param name="k_att" value="$(arg k_att)" if="$(eval arg('k_att') != '')" />
+        <param name="k_rep" value="$(arg k_rep)" if="$(eval arg('k_rep') != '')" />
+        <param name="depth_threshold" value="$(arg depth_threshold)" if="$(eval arg('depth_threshold') != '')" />
+        <param name="vel_cap" value="$(arg vel_cap)" if="$(eval arg('vel_cap') != '')" />
+        <param name="takeoff_height" value="$(arg takeoff_height)" if="$(eval arg('takeoff_height') != '')" />
+        
+        <!-- Camera parameters -->
+        <param name="fx" value="462.1" />
+        <param name="fy" value="462.1" />
+        <param name="cx" value="320.0" />
+        <param name="cy" value="240.0" />
+        
+        <!-- Obstacle detection -->
+        <param name="obs_radius" value="1.8" />
+        
+    </node>
+    
+    <!-- Optional: RQT parameter reconfigure for real-time tuning -->
+    <node name="rqt_reconfigure" pkg="rqt_reconfigure" type="rqt_reconfigure" if="$(arg verbose)" />
+    
+</launch>

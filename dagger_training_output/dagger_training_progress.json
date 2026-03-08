@@ -1,0 +1,59 @@
+{
+  "total_dagger_iterations_completed": 1,
+  "iteration_history": [
+    {
+      "iteration_num": 1,
+      "timestamp": "2025-06-03T23:07:06.802714",
+      "training_config_used": {
+        "output_dir": "/home/shahi/catkin_ws/src/apf_depth_nav_node/dagger_training_output/training_iter_1",
+        "initial_bc_dataset_dir": "/home/shahi/apf_logs/il_dataset/apf_depth_vel",
+        "initial_bc_model_path": "/home/shahi/catkin_ws/src/apf_depth_nav_node/scripts/bc_training/full_lr0.0001_seed42_20250603_220558/final_model.pt",
+        "train_initial_bc_model_in_dagger_pipeline": true,
+        "model_type": "full",
+        "image_size": [
+          60,
+          90
+        ],
+        "max_depth": 10.0,
+        "max_velocity": 2.0,
+        "batch_size": 32,
+        "train_num_workers": 4,
+        "val_split": 0.2,
+        "seed": 42,
+        "base_learning_rate": 0.0001,
+        "dagger_iteration_epochs": 15,
+        "dagger_dataset_weighting_strategy": "recent_bias",
+        "dagger_weight_decay_factor": 0.9,
+        "dagger_lr_strategy": "decay",
+        "dagger_lr_decay_factor": 0.85,
+        "dagger_load_optimizer_state": false,
+        "dagger_keep_converted_datasets": 3,
+        "epochs": 15,
+        "learning_rate": 0.0001,
+        "num_workers": 4
+      },
+      "dataset_sources_info": [
+        {
+          "key": "initial_bc_data",
+          "csv_path": "/home/shahi/apf_logs/il_dataset/apf_depth_vel/controls.csv",
+          "img_dir": "/home/shahi/apf_logs/il_dataset/apf_depth_vel/images",
+          "type": "initial_bc",
+          "iteration": 0,
+          "weight": 1.0
+        },
+        {
+          "key": "dagger_iter_1",
+          "csv_path": "/home/shahi/catkin_ws/src/apf_depth_nav_node/dagger_training_output/converted_dagger_dataset_iter_1/controls.csv",
+          "img_dir": "/home/shahi/catkin_ws/src/apf_depth_nav_node/dagger_training_output/converted_dagger_dataset_iter_1/images",
+          "type": "dagger_collected",
+          "iteration": 1,
+          "weight": 1.0,
+          "num_points": 474
+        }
+      ],
+      "best_val_loss": 0.004785034512785976,
+      "best_model_path": "/home/shahi/catkin_ws/src/apf_depth_nav_node/dagger_training_output/training_iter_1/best_model.pt"
+    }
+  ],
+  "last_updated": "2025-06-03T23:07:06.802727"
+}

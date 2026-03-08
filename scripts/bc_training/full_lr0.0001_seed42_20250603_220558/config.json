@@ -1,0 +1,30 @@
+{
+  "batch_size": 32,
+  "dataset_dir": "/home/shahi/apf_logs/il_dataset/apf_depth_vel",
+  "dropout_rate": 0.2,
+  "epochs": 50,
+  "grad_clip": 1.0,
+  "image_channels": 1,
+  "image_size": [
+    60,
+    90
+  ],
+  "learning_rate": 0.0001,
+  "log_interval": 50,
+  "max_depth": 10.0,
+  "max_velocity": 2.0,
+  "min_lr": 1e-07,
+  "model_type": "full",
+  "no_cuda": false,
+  "num_workers": 4,
+  "output_dim": 3,
+  "output_dir": "./bc_training/full_lr0.0001_seed42_20250603_220558",
+  "output_dir_base": "./bc_training",
+  "save_interval": 10,
+  "scheduler_factor": 0.5,
+  "scheduler_patience": 5,
+  "seed": 42,
+  "val_split": 0.2,
+  "velocity_dim": 4,
+  "weight_decay": 1e-05
+}

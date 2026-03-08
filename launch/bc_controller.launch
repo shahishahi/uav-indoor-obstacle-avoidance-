@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- BC Controller Node: Behavioral Cloning Inference + Safety Features -->
+    <node pkg="apf_depth_nav_node"
+          type="bc_inference_node.py"
+          name="bc_controller"
+          output="screen">
+        
+        <!-- Model Configuration -->
+        <param name="model_path" value="$(find apf_depth_nav_node)/scripts/bc_training/full_lr0.0001_seed42_20250606_032242/final_model.pt" />
+        
+        <!-- Safety Parameters -->
+        <param name="safety_mode" value="true" />
+        <param name="min_obstacle_distance" value="1.0" />
+        
+        <!-- Data Processing Parameters (must match training configuration) -->
+        <param name="max_depth" value="10.0" />
+        <rosparam param="crop_size">[60, 90]</rosparam>
+        
+        <!-- Debug and Visualization -->
+        <param name="enable_visualization" value="true" />
+        
+    </node>
+    
+    <!-- Optional: Additional safety monitoring node -->
+    <!-- Uncomment if you have a separate safety monitor -->
+    <!--
+    <node pkg="apf_depth_nav_node"
+          type="safety_monitor.py"
+          name="safety_monitor"
+          output="screen">
+        <param name="emergency_stop_distance" value="0.5" />
+        <param name="max_velocity" value="2.0" />
+    </node>
+    -->
+    
+</launch>

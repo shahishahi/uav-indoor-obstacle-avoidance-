@@ -1,0 +1,18 @@
+<launch>
+ 
+  <!-- Node to start APF navigation -->
+  <node pkg="apf_depth_nav_node" type="apf_depth_nav_node.py" name="apf_depth_navigator" output="screen">
+    <param name="takeoff_height" value="2.0" />
+    <param name="k_att" value="1.0" />
+    <param name="k_rep" value="1.0" />
+    <param name="obs_radius" value="1.5" />
+    <param name="vel_cap" value="1.0" />
+    <param name="depth_threshold" value="3.0" />
+    <param name="obstacle_spacing" value="20" />
+    <param name="fx" value="554.256"/>
+    <param name="fy" value="554.256"/>
+    <param name="cx" value="320.5"/>
+    <param name="cy" value="240.5"/>
+  </node>
+</launch>
+
